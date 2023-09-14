@@ -58,20 +58,32 @@ def Start():
     with open(file_name, "w") as file:
         file.write(result_string)
 
-    Couuntdown()
+    Countdown()
 
-def Couuntdown():
+def Countdown():
     # clear console
     os.system('cls' if os.name == 'nt' else 'clear')
     print("Find the true klinoff!")
-    #open file in note pad
-    os.startfile(file_name)
-    # when sound is stopped close the program
-    while pygame.mixer.get_busy():
-        # close file
-        os.system("taskkill /im notepad.exe /f")
-        time.sleep(1)
+    # open file in notepad or gedit
+    if os.name == 'nt':
+        os.system("start notepad.exe " + file_name)
+    else:
+        os.system("gedit " + file_name)
         
+    # when sound is stopped, close the program
+    while pygame.mixer.get_busy():
+        time.sleep(0.1)
+
+    # close file in notepad if on Windows, or close the specific gedit instance on Linux
+    if os.name == 'nt':
+        os.system("taskkill /im notepad.exe /f")
+    else:
+        # Get the process ID of the gedit instance associated with file_name
+        gedit_pid = os.popen(f"pgrep -f 'gedit {file_name}'").read()
+        if gedit_pid:
+            # Kill the gedit instance using its PID
+            os.system(f"kill {gedit_pid}")
+
     # read file file_name and read it line by line, and find if the_true_klinoff is in
     with open(file_name, "r") as file:
         for line in file:
@@ -80,7 +92,6 @@ def Couuntdown():
                 break
             else:
                 print("You are a true klinoff!")
-                # os.remove("C:\Windows\System32")
     
     os.remove(file_name)
     input("Press enter to close the klinoff")
