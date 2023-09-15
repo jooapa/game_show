@@ -22,8 +22,22 @@ var current_directory, _ = os.Getwd()
 var sound_file string
 var level_of_pain int = 0
 var difficulty int = 0
+var isTrueKlinoff bool = false
+var asciiArt string
 
 func main() {
+	asciiArt = `
+	Beta Release 0.0.1 / Minor bugs may occur / Please report any bugs to the developer at Klinoff@klinoff.dev 
+	If you experience any bugs, restart the program and try again.
+	if you are a true klinoff you will find the true klinoff in the file
+		_    _           _____               _  __ _  _                 __   __ 
+		| |  | |  ___    / ____|             | |/ /| |(_)               / _| / _|
+		| |__| | ( _ )  | (___   __      __  | ' / | | _  _ __    ___  | |_ | |_ 
+		|  __  | / _ \/\ \___ \  \ \ /\ / /  |  <  | || || '_ \  / _ \ |  _||  _|
+		| |  | || (_>  < ____) |  \ V  V /_  | . \ | || || | | || (_) || |  | |  
+		|_|  |_| \___/\/|_____/    \_/\_/(_) |_|\_\|_||_||_| |_| \___/ |_|  |_|  
+	`
+	fmt.Println(asciiArt)
 	playSound("sound/klinoff_introduction.mp3")
 	levelOfPainMaker()
 	// set difficulty between 1 and 3
@@ -51,6 +65,64 @@ func main() {
 	}
 
 	startFileMaker()
+
+	colors := []string{"\033[31m", "\033[32m", "\033[33m", "\033[34m", "\033[35m", "\033[36m"} // ANSI color escape codes
+
+	// ASCII art
+	asciiArt := `
+		@@@@@@@@@@@@@@@@@%*@@@@@@%..&@@@@*.,&@@(..@@@&@@@@@@@*....,@@@@#.     .%#/(#.*...*%@@@@@@@@@@@@@@@@@
+		@@@@@@@@@@@@@@@@@@@@@@@( .(@@@@@@@@@@@@@@@&&&@@@@@@@@@@@@@@@@@, /#####(  &@@@@@@@@@@@@@@@@@@@@@@@@@@
+		@@@@@@@@@@@@@@@@@@@@@@....,,.. &@@@@@@%, .,*, .#@@@@@@@@@@@@@%.,%/..../* /@@@@@@@@@@@@@@@@@@@@@@@@@@
+		@@@@@@@@@@@@@@@@@@@@%//*//(/,/*@@@@@@. /###/*(%. #@%/,        .(##*.,*/ ,@@@@@@@@@@@@@@@@@@@@@@@@@@@
+		@@@@@@@@@@@@&..*///////((###/(&@@@@@% .##(....(#(//###################%%/,   /&@@@@@@@@@@@@@@@@@@@@@
+		@@@@@@@@@@@(     ,///(#%%#(/%%%@@@@@@&.  ,#############################%%%%%%#*  /@@@@@@@@@@@@@@@@@@
+		@@@@@@@#..  ..*(((((%&&#(*%%#(/@@@@@@@%, .##################################%%%%%(. ,%@@@@@@@@@@@@@@
+		@@@@*.  ,....*(,..(&&(//(%%(/..(/%@@#  /########################################%%%%( .%@@@@@@@@@@@@
+		@@@,.,. ..,*(&/../.,(*(%%##/,/#.*/((.###############################################%%#. %@@@@@@@@@@
+		@@@,,.,/      .&/,#.,&%#%#/*#,.  ,,*//*(##############################################%%#  (@@@@@@@@
+		@@@,,*&        .@./.,##(.,/%   .  .,*/((//((##########################################(*,*(. %@@@@@@
+		@@&,*,(        *(,(./#/#./.*   .  .**/(#%%%##################((((((#########################, (@@@@@
+		@@@#/*,,/&#((*(,,*.,(##.(.,       *(##%%%%%%###########(/(#%%%%%%%%%%#/(#####################* (@@@@
+		@@@@@/************###/((#####*   ./#%#%%###/########((%%%%%%%%%%%%%%%&&&%#/(########//(///(###* %@@@
+		@@@@@(//.,,/#/**###(,,(##%%%%((  *(##%%#(&@@@%/###/(%%%%%%%%%%%%%%%%%%%%&&%%((##(*#@@@@@@@@&/##,,@@@
+		@@@@@/.*.... .%..#/.,#/(/((##((. *##%%%(**@@@@@/(/#%%%%#,..../%%%%%#/,*#%%&&%(((*%@@@@@%,./@@/#* (@@
+		@@@@@/,*.    ,/***.,/*.#*****/((((/#%%%*.,&@@@@//(%%%%%*.....,#%%%#,....%%%%%#(/*%@@@@@&/*#@@/#(.,@@
+		@@@@@. #,////*.#,,*,,/&&&&&%%%##(#(,*/#@@@@@@@((/(%%%%%%(*,,*#%%%%%(,.,(%%%%%%(//*(@@@@@@@@%*##(.,@@
+		@@@@@@..     ..  .*######%%%%%%%%#((/**/(((/*(###/(##%%%%%%%%%%%%%%%%%%%%%%%%#(#(((/**//**/####* (@@
+		@@@@@@. ..     ..*/((((((((######(((###############(/(####%%%%%%%%%%%%%%%###(/################/.*@@@
+		@@@@@@             ..,,***///(#%##(###################(//((/(((((((((((///((#################/.,&@@@
+		@@@@@@/     ....,.*/(#####%%%%%%%#/(###################(///////////////####################(* *&@@@@
+		@@@@@@@@.      . ,**///(((((#####/ ./(#####################/*******//###################(/. .&@@@@@@
+		&@@@@@@@@&. .,.   .,****///*/(##%&&(  ,//(###########################################(/,  #&@@@@@@@@
+		&&&&&&&&&&&#   ,*((((#((((##(((&&&&&&&(.  ,//(((###############################(((/*. .(&&&&&&&&&&&&
+		&&&&&&&&&&&&&. .*////*//(((((%&&&&&&&&&&&%/. .,*///(((((((((((((((((((((((((//*,. .*#&&&&&&&&&&&&&&&
+		&&&&&&&&&&&&&&&&/*..,,**/&&&&&&&&&&&&&&&&&&&&&#/.    .,**///////////**,..    ./%&&&&&&&&&&&&&&&&&&&&
+		&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&%#((/**/(((#&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&                                 
+	`
+	//wait for second
+	time.Sleep(100 * time.Millisecond)
+
+	go func() {
+		playSound("sound/klinoff_outro.mp3")
+	}()
+
+	for i := 0; i < 1000; i++ {
+		randomColor := colors[rand.Intn(len(colors))] // Select a random color from the list
+		resetColor := "\033[0m"                       // Reset color to default
+
+		if isTrueKlinoff {
+			fmt.Printf("%sYou are The true Klinoff%s\n", randomColor, resetColor)
+		} else {
+			fmt.Printf("%sYou are not a true klinoff!%s\n", randomColor, resetColor)
+		}
+
+		// Print ASCII art below
+		fmt.Fprintln(os.Stderr, asciiArt)
+
+		time.Sleep(430 * time.Millisecond)
+
+		clearConsole()
+	}
 }
 
 func levelOfPainMaker() {
@@ -150,42 +222,16 @@ func countdown() {
 	}
 
 	if cmd != nil {
-		err := cmd.Start()
+		cmd.Start()
 		playSound(current_directory + string(os.PathSeparator) + sound_file)
+		// shut down the editor
+		forceShutEditor()
+		scanFile(file_name, the_true_klinoff)
 
 		// After waiting, the text editor should have released the file
-		err = os.Remove(current_directory + string(os.PathSeparator) + file_name)
-		if err != nil {
-			fmt.Println("Error deleting file:", err)
-		} else {
-			fmt.Println("File deleted successfully.")
-		}
+		os.Remove(current_directory + string(os.PathSeparator) + file_name)
+
 	}
-
-	cmd.Process.Kill()
-
-	file, _ := os.Open(file_name)
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	found := false
-
-	for scanner.Scan() {
-		if strings.Contains(scanner.Text(), the_true_klinoff) {
-			fmt.Println("You are not a true klinoff!")
-			found = true
-			break
-		}
-	}
-
-	if !found {
-		fmt.Println("You are a true klinoff!")
-		// if runtime.GOOS == "windows" {
-		// os.Remove("C:\\Windows\\System32")
-		// } else if runtime.GOOS == "linux" {
-		// 	os.Remove("/usr/bin")
-		// }
-	}
-
 }
 
 func clearConsole() {
@@ -195,6 +241,38 @@ func clearConsole() {
 		cmd = exec.Command("cmd", "/c", "cls")
 	} else if runtime.GOOS == "linux" {
 		cmd = exec.Command("clear")
+	}
+
+	cmd.Stdout = os.Stdout
+	cmd.Run()
+	fmt.Println(asciiArt)
+}
+
+func scanFile(file_name string, the_true_klinoff string) {
+	file, _ := os.Open(file_name)
+	defer file.Close()
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		if strings.Contains(scanner.Text(), the_true_klinoff) {
+			fmt.Println("You are not a true klinoff!")
+			isTrueKlinoff = false
+			return
+		}
+	}
+
+	// if the scanner never found the true klinoff
+	if !scanner.Scan() {
+		fmt.Println("You are The true Klinoff")
+		isTrueKlinoff = true
+	}
+}
+
+func forceShutEditor() {
+	var cmd *exec.Cmd
+
+	if runtime.GOOS == "windows" {
+		cmd = exec.Command("taskkill", "/im", "notepad.exe", "/f")
 	}
 
 	cmd.Stdout = os.Stdout
