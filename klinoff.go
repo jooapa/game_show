@@ -103,9 +103,9 @@ func main() {
 		//wait for second
 		time.Sleep(100 * time.Millisecond)
 
-		go func() {
-			playSound("sound/klinoff_outro.mp3")
-		}()
+		// go func() {
+		go playSound("sound/klinoff_outro.mp3")
+		// }()
 	} else {
 		// ASCII art
 		asciiArt = `
@@ -161,9 +161,9 @@ func main() {
 		//wait for second
 		time.Sleep(100 * time.Millisecond)
 
-		go func() {
-			playSound("sound/klinoff_happy_ending.mp3")
-		}()
+		// go func() {
+		go playSound("sound/klinoff_happy_ending.mp3")
+		// }()
 	}
 
 	for i := 0; i < 1000; i++ {
